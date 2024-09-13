@@ -1,0 +1,14 @@
+{
+  "name": "curiosphere",
+  "version": "1.0.0",
+  "scripts": {
+    "frontend": "npm run serve --prefix frontend",
+    "backend": "npm start --prefix backend",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "setup": "npm install && npm install --prefix backend && npm install --prefix frontend"
+  },
+  "devDependencies": {
+    "chokidar": "^4.0.0",
+    "concurrently": "^7.6.0"
+  }
+}
