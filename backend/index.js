@@ -1,16 +1,16 @@
-require('dotenv').config();
+require('dotenv').config(); // Load environment variables from .env
 
 const express = require('express');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); // For parsing JSON
 const cors = require('cors');
-const { Fact } = require('./models');
+const { sequelize, Fact } = require('./models'); // Import sequelize and Fact model
 
 const app = express();
-
 const PORT = process.env.PORT || 5000;
 
-
+// Middleware
 app.use(cors());
+app.use(bodyParser.json()); // For parsing application/json
 
 // Get all facts
 app.get('/api/facts', async (req, res) => {
@@ -18,6 +18,7 @@ app.get('/api/facts', async (req, res) => {
         const facts = await Fact.findAll();
         res.json(facts);
     } catch (error) {
+        console.error('Error fetching facts:', error);
         res.status(500).json({ error: 'Something went wrong!' });
     }
 });
@@ -27,8 +28,9 @@ app.post('/api/facts', async (req, res) => {
     try {
         const { factText, category, longitude, latitude } = req.body;
         const newFact = await Fact.create({ factText, category, longitude, latitude });
-        res.json(newFact);
+        res.status(201).json(newFact); // Return 201 status for created resource
     } catch (error) {
+        console.error('Error creating fact:', error);
         res.status(500).json({ error: 'Failed to create fact' });
     }
 });
@@ -43,6 +45,7 @@ app.put('/api/facts/:id', async (req, res) => {
         await fact.update({ factText, category, longitude, latitude });
         res.json(fact);
     } catch (error) {
+        console.error('Error updating fact:', error);
         res.status(500).json({ error: 'Failed to update fact' });
     }
 });
@@ -56,10 +59,22 @@ app.delete('/api/facts/:id', async (req, res) => {
         await fact.destroy();
         res.json({ message: 'Fact deleted' });
     } catch (error) {
+        console.error('Error deleting fact:', error);
         res.status(500).json({ error: 'Failed to delete fact' });
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Sync database and start the server
+sequelize.authenticate() // Check database connection
+    .then(() => {
+        console.log('Database connected successfully.');
+        return sequelize.sync(); // Sync models to the database
+    })
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.error('Unable to connect to the database:', error);
+    });
