@@ -15,7 +15,7 @@ app.use(bodyParser.json()); // For parsing application/json
 // Get all facts
 app.get('/api/facts', async (req, res) => {
     try {
-        const facts = await Fact.findAll();
+        const facts = ['hej', '222'] //await Fact.findAll();
         res.json(facts);
     } catch (error) {
         console.error('Error fetching facts:', error);
