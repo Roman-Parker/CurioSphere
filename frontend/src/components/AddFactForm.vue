@@ -98,43 +98,43 @@
   export default {
     name: 'AddFactForm',
     setup() {
-      // Form data
-      const factText = ref('');
-      const author = ref('')
-      const category = ref('');
-      const longitude = ref(null);
-      const latitude = ref(null);
-      const source = ref('');
-  
-      const successMessage = ref('');
-  
-      const submitForm = async () => {
+    // Form data
+    const factText = ref('');
+    const author = ref('')
+    const category = ref('');
+    const longitude = ref(null);
+    const latitude = ref(null);
+    const source = ref('');
+
+    const successMessage = ref('');
+
+    const submitForm = async () => {
         try {
-          const newFact = {
+        const newFact = {
             factText: factText.value,
             author: author.value,
             category: category.value,
             longitude: longitude.value,
             latitude: latitude.value,
             source: source.value
-          };
-  
-          await axios.post('/facts', newFact);
-  
-          successMessage.value = 'Fact successfully added!';
-  
-          factText.value = '';
-          category.value = '';
-          longitude.value = null;
-          latitude.value = null;
+        };
+
+        await axios.post('/facts', newFact);
+
+        successMessage.value = 'Fact successfully added!';
+
+        factText.value = '';
+        category.value = '';
+        longitude.value = null;
+        latitude.value = null;
         } catch (error) {
-          console.error('Error adding fact:', error);
-          successMessage.value = 'Failed to add fact.';
+            console.error('Error adding fact:', error);
+            successMessage.value = 'Failed to add fact.';
         }
-      };
-  
-      // Return form data and functions to the template
-      return {
+    };
+
+    // Return form data and functions to the template
+    return {
         factText,
         author,
         category,
@@ -142,7 +142,7 @@
         latitude,
         successMessage,
         submitForm,
-      };
+        };
     },
   };
   </script>

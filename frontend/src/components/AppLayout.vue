@@ -10,6 +10,7 @@
             <li><router-link to="/about" class="hover:underline">About</router-link></li>
             <li><router-link to="/contact" class="hover:underline">Contact</router-link></li>
           </ul>
+          <DarkModeToggle></DarkModeToggle>
         </div>
       </nav>
   
@@ -27,13 +28,14 @@
     </div>
   </template>
   
-  <script>
-  export default {
+<script>
+import DarkModeToggle from './DarkModeToggle.vue';
+
+export default {
     name: 'AppLayout',
-  };
-  </script>
-  
-  <style scoped>
-  /* Tailwind CSS utility classes handle the styles */
-  </style>
-  
+
+    components: {
+        DarkModeToggle
+    }
+};
+</script>
