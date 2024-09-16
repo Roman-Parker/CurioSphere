@@ -4,6 +4,8 @@
     <main class="container mx-auto flex-grow p-6">
       <h1 class="text-3xl font-semibold mb-6">Home Page</h1>
 
+      <AddFactForm></AddFactForm>
+
       <!-- Facts List -->
       <div class="space-y-4">
         <div v-if="facts.length === 0" class="text-gray-500">
@@ -28,6 +30,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import AddFactForm from './AddFactForm.vue'
 
 export default {
   name: 'HomePage',
@@ -55,6 +58,9 @@ export default {
     return {
       facts,
     };
+  },
+  components: {
+    AddFactForm, // Register the component for use in the template
   },
 };
 </script>
